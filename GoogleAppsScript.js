@@ -17,9 +17,20 @@ function doPost(e) {
     logActivity('POST', 'Received campaigns', data.campaigns?.length || 0);
     
     return ContentService.createTextOutput(JSON.stringify({
-    success: true,
-    stats: stats
-  })).setMimeType(ContentService.MimeType.JSON);
+      success: true,
+      message: 'Data stored successfully',
+      campaignsProcessed: result.count,
+      timestamp: new Date().toISOString()
+    })).setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    logActivity('ERROR', error.toString(), 0);
+
+    return ContentService.createTextOutput(JSON.stringify({
+      success: false,
+      error: error.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
 }
 
 function getHealthCheck() {
@@ -352,21 +363,6 @@ function exportToJSONMenu() {
   
   ui.alert('Export Complete', 'JSON data has been exported to the "JSON_Export" sheet. You can copy it from there.', ui.ButtonSet.OK);
 }
-      success: true,
-      message: 'Data stored successfully',
-      campaignsProcessed: result.count,
-      timestamp: new Date().toISOString()
-    })).setMimeType(ContentService.MimeType.JSON);
-    
-  } catch (error) {
-    logActivity('ERROR', error.toString(), 0);
-    
-    return ContentService.createTextOutput(JSON.stringify({
-      success: false,
-      error: error.toString()
-    })).setMimeType(ContentService.MimeType.JSON);
-  }
-}
 
 function doGet(e) {
   try {
@@ -448,7 +444,7 @@ function storeCampaigns(campaigns) {
   // Auto-resize columns
   sheet.autoResizeColumns(1, 11);
   
-  return { count: count };
+  return { count };
 }
 
 // ============================================
@@ -506,3 +502,29 @@ function getStatsAPI() {
   }
   
   return ContentService.createTextOutput(JSON.stringify({
+    success: true,
+    stats: stats
+  })).setMimeType(ContentService.MimeType.JSON);
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    doPost,
+    doGet,
+    storeCampaigns,
+    getCampaignsAPI,
+    getStatsAPI,
+    getHealthCheck,
+    logActivity,
+    checkDataFreshness,
+    sendAlert,
+    generateDailyReport,
+    cleanupOldData,
+    exportToJSON,
+    setupTriggers,
+    setupScriptProperties,
+    onOpen,
+    showStats,
+    exportToJSONMenu
+  };
+}
