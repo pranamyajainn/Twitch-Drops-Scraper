@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 350px;
+      padding: 15px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    
+    h1 {
+      margin: 0 0 15px 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    
+    .status {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 13px;
+    }
+    
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 5px 0;
+    }
+    
+    .label {
+      opacity: 0.9;
+    }
+    
+    .value {
+      font-weight: 600;
+    }
+    
+    .input-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+    
+    input {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      box-sizing: border-box;
+      background: rgba(255, 255, 255, 0.9);
+    }
+    
+    button {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background: white;
+      color: #667eea;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    .btn-success {
+      background: #10b981;
+      color: white;
+    }
+    
+    .message {
+      padding: 8px;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-size: 12px;
+      text-align: center;
+      display: none;
+    }
+    
+    .message.success {
+      background: #10b981;
+      display: block;
+    }
+    
+    .message.error {
+      background: #ef4444;
+      display: block;
+    }
+    
+    .setup-section {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .setup-section h3 {
+      font-size: 14px;
+      margin: 0 0 10px 0;
+    }
+    
+    small {
+      opacity: 0.8;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 Twitch Drops Scraper</h1>
+    
+    <div class="status">
+      <div class="status-item">
+        <span class="label">Status:</span>
+        <span class="value" id="status">Idle</span>
+      </div>
+      <div class="status-item">
+        <span class="label">Last Scrape:</span>
+        <span class="value" id="lastScrape">Never</span>
+      </div>
+      <div class="status-item">
+        <span class="label">Total Scrapes:</span>
+        <span class="value" id="scrapeCount">0</span>
+      </div>
+    </div>
+    
+    <button class="btn-primary" id="scrapeNow">Scrape Now</button>
+    <button class="btn-secondary" id="openDropsPage">Open Twitch Drops</button>
+    
+    <div class="setup-section">
+      <h3>⚙️ Configuration</h3>
+      
+      <div class="input-group">
+        <label for="appsScriptUrl">Google Apps Script URL:</label>
+        <input type="text" id="appsScriptUrl" placeholder="https://script.google.com/...">
+        <small>Deploy your Apps Script as a web app and paste URL here</small>
+      </div>
+      
+      <div class="input-group">
+        <label for="scrapeInterval">Scrape Interval (minutes):</label>
+        <input type="number" id="scrapeInterval" value="60" min="15">
+      </div>
+      
+      <button class="btn-success" id="saveConfig">Save Configuration</button>
+    </div>
+    
+    <div id="message" class="message"></div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
